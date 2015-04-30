@@ -21,6 +21,11 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
           chrome.tabs.sendMessage(tabs[0].id, {trust: trust, url: request.url}, function(response) {});
         });
+        
+      if(trust < sensitivity/3) chrome.browserAction.setIcon({path: 'icon_red.png'});
+      else if(trust < 2*sensitivity/3) chrome.browserAction.setIcon({path: 'icon_orange.png'});
+      else if(trust < sensitivity) chrome.browserAction.setIcon({path: 'icon_green.png'})
+      else chrome.browserAction.setIcon({path: 'icon.png'})
 
     });
   }
